@@ -22,7 +22,7 @@
             android:value="true" />
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyBoLajgZIMBGqxrPKkUo9g0LHDb2qBB76g" />
+            android:value="" />
 
         <activity android:name=".FoodViewActivity" />
         <activity android:name=".AddFoodActivity" />
