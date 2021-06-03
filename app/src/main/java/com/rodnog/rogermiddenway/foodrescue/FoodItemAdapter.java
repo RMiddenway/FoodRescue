@@ -24,6 +24,7 @@ public class FoodItemAdapter extends RecyclerView.Adapter<FoodItemAdapter.FoodIt
     private List<Food> foodList;
     private Context context;
     private OnRowClickListener listener;
+//    private ImageView foodItemImageViewForTrans;
 
     public FoodItemAdapter(List<Food> foodList, Context context, OnRowClickListener listener) {
         this.foodList = foodList;
@@ -77,14 +78,16 @@ public class FoodItemAdapter extends RecyclerView.Adapter<FoodItemAdapter.FoodIt
             foodTitleTextView = itemView.findViewById(R.id.pFoodTitleTextView);
             foodDescriptionTextView = itemView.findViewById(R.id.pFoodDescriptionTextView);
             shareImageButton = itemView.findViewById(R.id.shareImageButton);
+//            foodItemImageViewForTrans = itemView.findViewById(R.id.pFoodImageView);
 
-            itemView.setOnClickListener(v -> onRowClickListener.onItemClick(this.getAdapterPosition()));
+            itemView.setOnClickListener(v -> onRowClickListener.onItemClick(this.getAdapterPosition(), (View)foodItemImageView,
+                    (View)foodTitleTextView));
             shareImageButton.setOnClickListener(v -> onRowClickListener.onShareButtonClick(this.getAdapterPosition()));
         }
     }
 
     public interface OnRowClickListener {
-        void onItemClick(int position);
+        void onItemClick(int position, View sharedImageView, View sharedTextView);
         void onShareButtonClick(int position);
     }
 }

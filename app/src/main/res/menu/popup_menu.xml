@@ -11,4 +11,7 @@
     <item
         android:id="@+id/myListItem"
         android:title="My List"/>
+    <item
+        android:id="@+id/cartItem"
+        android:title="My Cart"/>
 </menu>

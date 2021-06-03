@@ -1,25 +1,32 @@
 package com.rodnog.rogermiddenway.foodrescue.data;
 
+import android.app.Application;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 
+import com.rodnog.rogermiddenway.foodrescue.MainActivity;
 import com.rodnog.rogermiddenway.foodrescue.model.Food;
 import com.rodnog.rogermiddenway.foodrescue.model.User;
 import com.rodnog.rogermiddenway.foodrescue.util.Util;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
 
+    Context mContext;
 
     public DatabaseHelper(@Nullable Context context) {
         super(context, Util.DATABASE_NAME, null, Util.DATABASE_VERSION);
+        mContext = context;
     }
 
     @Override
@@ -27,10 +34,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         String CREATE_USER_TABLE = "CREATE TABLE " + Util.TABLE_NAME_USERS + "(" + Util.USER_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
                 + Util.NAME + " TEXT," + Util.EMAIL + " TEXT," + Util.PHONE + " TEXT, " + Util.ADDRESS + " TEXT, " + Util.PASSWORD + " TEXT)";
         db.execSQL(CREATE_USER_TABLE);
-
+//TODO CHANGE DB DATE AND PICKUP TIMES TO START TIME END TIME
         String CREATE_FOOD_TABLE = "CREATE TABLE " + Util.TABLE_NAME_FOOD + "(" + Util.FOOD_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
                 + Util.USER_ID + " INTEGER," + Util.IMAGE_PATH + " TEXT, " + Util.FOOD_TITLE + " TEXT, " + Util.FOOD_DESCRIPTION
-                + " TEXT, " + Util.DATE +  " INTEGER, " + Util.PICKUP_TIMES + " INTEGER, " + Util.QUANTITY + " INTEGER, " + Util.LOCATION + " TEXT)";
+                + " TEXT, " + Util.START_TIME +  " INTEGER, " + Util.END_TIME + " INTEGER, " + Util.QUANTITY + " INTEGER, " + Util.LATITUDE
+                + " DECIMAL, " + Util.LONGITUDE + " DECIMAL, " + Util.PRICE + " DECIMAL, " + Util.TAGS + " TEXT)";
         db.execSQL(CREATE_FOOD_TABLE);
     }
 
@@ -77,13 +85,89 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         contentValues.put(Util.IMAGE_PATH, food.getImage_path());
         contentValues.put(Util.FOOD_TITLE, food.getTitle());
         contentValues.put(Util.FOOD_DESCRIPTION, food.getDescription());
-        contentValues.put(Util.DATE, food.getDate());
-        contentValues.put(Util.LOCATION, food.getLocation());
-        contentValues.put(Util.PICKUP_TIMES, food.getTime());
+        contentValues.put(Util.START_TIME, food.getStartTime());
+        contentValues.put(Util.END_TIME, food.getEndTime());
+        contentValues.put(Util.LATITUDE, food.getLocation().latitude);
+        contentValues.put(Util.LONGITUDE, food.getLocation().longitude);
         contentValues.put(Util.QUANTITY, food.getQuantity());
+        contentValues.put(Util.PRICE, food.getPrice());
+
+        StringBuilder sb = new StringBuilder();
+        if(food.getTags() != null) {
+            for (String tag : food.getTags()) {
+                sb.append(tag);
+                sb.append("\t");
+            }
+        }
+        else{
+            sb.append("");
+        }
+        contentValues.put(Util.TAGS, sb.toString());
+
         long newRowId = db.insert(Util.TABLE_NAME_FOOD, null, contentValues);
         db.close();
         return newRowId;
+    }
+
+    public long updateFood(Food food){
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(Util.FOOD_ID, food.getFood_id());
+        contentValues.put(Util.USER_ID, food.getUser_id());
+        contentValues.put(Util.IMAGE_PATH, food.getImage_path());
+        contentValues.put(Util.FOOD_TITLE, food.getTitle());
+        contentValues.put(Util.FOOD_DESCRIPTION, food.getDescription());
+        contentValues.put(Util.START_TIME, food.getStartTime());
+        contentValues.put(Util.END_TIME, food.getEndTime());
+        contentValues.put(Util.LATITUDE, food.getLocation().latitude);
+        contentValues.put(Util.LONGITUDE, food.getLocation().longitude);
+        contentValues.put(Util.QUANTITY, food.getQuantity());
+        contentValues.put(Util.PRICE, food.getPrice());
+        StringBuilder sb = new StringBuilder();
+        for (String tag : food.getTags())
+        {
+            sb.append(tag);
+            sb.append("\t");
+        }
+        contentValues.put(Util.TAGS, sb.toString());
+
+
+        long newRowId = db.replace(Util.TABLE_NAME_FOOD, null, contentValues);
+        db.close();
+        return newRowId;
+    }
+
+    public Food fetchFood(int foodId) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        String select = "SELECT * FROM " + Util.TABLE_NAME_FOOD + " WHERE " + Util.FOOD_ID + "= ?";
+        Cursor cursor = db.rawQuery(select, new String[]{String.valueOf(foodId)});
+//        Cursor cursor = db.query(Util.TABLE_NAME_FOOD, new String[]{Util.FOOD_ID}, Util.FOOD_ID + "=? ",
+//                new String[]{String.valueOf(foodId)}, null, null, null);
+        if(cursor.moveToFirst()){
+            db.close();
+            Food food = new Food();
+            food.setFood_id((cursor.getInt(cursor.getColumnIndex(Util.FOOD_ID))));
+            food.setUser_id((cursor.getInt(cursor.getColumnIndex(Util.USER_ID))));
+            food.setImage_path(cursor.getString(cursor.getColumnIndex(Util.IMAGE_PATH)));
+            food.setTitle(cursor.getString(cursor.getColumnIndex(Util.FOOD_TITLE)));
+            food.setDescription(cursor.getString(cursor.getColumnIndex(Util.FOOD_DESCRIPTION)));
+            food.setQuantity(cursor.getInt(cursor.getColumnIndex(Util.QUANTITY)));
+            food.setStartTime(cursor.getLong(cursor.getColumnIndex(Util.START_TIME)));
+            food.setEndTime(cursor.getLong(cursor.getColumnIndex(Util.END_TIME)));
+            food.setLocation(cursor.getDouble(cursor.getColumnIndex(Util.LATITUDE)), cursor.getDouble(cursor.getColumnIndex(Util.LONGITUDE)));
+            food.setPrice(cursor.getFloat(cursor.getColumnIndex(Util.PRICE)));
+            String tagString = cursor.getString(cursor.getColumnIndex(Util.TAGS));
+            List<String> tagList = new ArrayList<String>(Arrays.asList(tagString.split("\t")));
+            food.setTags(tagList);
+            return food;
+        }
+        else{
+//            Toast.makeText(mContext, "FOOD NOT FOUND", Toast.LENGTH_SHORT).show();
+            Log.d("DATABASE", "FOOD NOT FOUUND");
+            db.close();
+            return null;
+        }
+
     }
     public List<Food> fetchAllFoodItems(){
         SQLiteDatabase db = this.getReadableDatabase();
@@ -94,10 +178,19 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         if(cursor.moveToFirst()){
             do {
                 Food food = new Food();
+                food.setFood_id((cursor.getInt(cursor.getColumnIndex(Util.FOOD_ID))));
                 food.setUser_id((cursor.getInt(cursor.getColumnIndex(Util.USER_ID))));
                 food.setImage_path(cursor.getString(cursor.getColumnIndex(Util.IMAGE_PATH)));
                 food.setTitle(cursor.getString(cursor.getColumnIndex(Util.FOOD_TITLE)));
                 food.setDescription(cursor.getString(cursor.getColumnIndex(Util.FOOD_DESCRIPTION)));
+                food.setQuantity(cursor.getInt(cursor.getColumnIndex(Util.QUANTITY)));
+                food.setStartTime(cursor.getInt(cursor.getColumnIndex(Util.START_TIME)));
+                food.setEndTime(cursor.getInt(cursor.getColumnIndex(Util.END_TIME)));
+                food.setLocation(cursor.getDouble(cursor.getColumnIndex(Util.LATITUDE)), cursor.getDouble(cursor.getColumnIndex(Util.LONGITUDE)));
+                food.setPrice(cursor.getFloat(cursor.getColumnIndex(Util.PRICE)));
+                String tagString = cursor.getString(cursor.getColumnIndex(Util.TAGS));
+                List<String> tagList = new ArrayList<String>(Arrays.asList(tagString.split("\t")));
+                food.setTags(tagList);
                 foodList.add(food);
             }
             while(cursor.moveToNext());
@@ -105,6 +198,18 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
         return foodList;
     }
+//    private Food getFood(Cursor cursor){
+//        Food food = new Food();
+//        food.setFood_id((cursor.getInt(cursor.getColumnIndex(Util.FOOD_ID))));
+//        food.setUser_id((cursor.getInt(cursor.getColumnIndex(Util.USER_ID))));
+//        food.setImage_path(cursor.getString(cursor.getColumnIndex(Util.IMAGE_PATH)));
+//        food.setTitle(cursor.getString(cursor.getColumnIndex(Util.FOOD_TITLE)));
+//        food.setDescription(cursor.getString(cursor.getColumnIndex(Util.FOOD_DESCRIPTION)));
+//        food.setDate(cursor.getInt(cursor.getColumnIndex(Util.DATE)));
+//        food.setTime(cursor.getInt(cursor.getColumnIndex(Util.PICKUP_TIMES)));
+//        food.setLocation(cursor.getInt(cursor.getColumnIndex(Util.LATITUDE)), cursor.getInt(cursor.getColumnIndex(Util.LONGITUDE)));
+//        return food;
+//    }
     public List<Food> fetchAllFoodItems(int userId){
         SQLiteDatabase db = this.getReadableDatabase();
         String selectAll = "SELECT * FROM " + Util.TABLE_NAME_FOOD + " WHERE " + Util.USER_ID + "= ?";
@@ -114,10 +219,20 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         if(cursor.moveToFirst()){
             do {
                 Food food = new Food();
+                food.setFood_id((cursor.getInt(cursor.getColumnIndex(Util.FOOD_ID))));
                 food.setUser_id((cursor.getInt(cursor.getColumnIndex(Util.USER_ID))));
                 food.setImage_path(cursor.getString(cursor.getColumnIndex(Util.IMAGE_PATH)));
                 food.setTitle(cursor.getString(cursor.getColumnIndex(Util.FOOD_TITLE)));
                 food.setDescription(cursor.getString(cursor.getColumnIndex(Util.FOOD_DESCRIPTION)));
+                food.setQuantity(cursor.getInt(cursor.getColumnIndex(Util.QUANTITY)));
+                food.setStartTime(cursor.getInt(cursor.getColumnIndex(Util.START_TIME)));
+                food.setEndTime(cursor.getInt(cursor.getColumnIndex(Util.END_TIME)));
+                food.setLocation(cursor.getDouble(cursor.getColumnIndex(Util.LATITUDE)), cursor.getDouble(cursor.getColumnIndex(Util.LONGITUDE)));
+                food.setPrice(cursor.getFloat(cursor.getColumnIndex(Util.PRICE)));
+                String tagString = cursor.getString(cursor.getColumnIndex(Util.TAGS));
+                List<String> tagList = new ArrayList<String>(Arrays.asList(tagString.split("\t")));
+                food.setTags(tagList);
+
                 foodList.add(food);
             }
             while(cursor.moveToNext());

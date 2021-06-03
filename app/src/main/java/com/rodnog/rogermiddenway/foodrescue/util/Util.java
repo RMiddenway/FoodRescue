@@ -19,8 +19,14 @@ public class Util {
     public static final String IMAGE_PATH = "image_path";
     public static final String FOOD_TITLE = "title";
     public static final String FOOD_DESCRIPTION = "description";
-    public static final String DATE = "date";
-    public static final String PICKUP_TIMES = "pickup_times";
+    public static final String START_TIME = "start_time";
+    public static final String END_TIME = "end_time";
     public static final String QUANTITY = "quantity";
-    public static final String LOCATION = "location";
+    public static final String LATITUDE = "latitude";
+    public static final String LONGITUDE = "longitude";
+    public static final String PRICE = "price";
+    public static final String TAGS = "tags";
+//    public static final String LOCATION = "location";
+
+//    public static final String API_KEY = "AIzaSyBoLajgZIMBGqxrPKkUo9g0LHDb2qBB76g";
 }

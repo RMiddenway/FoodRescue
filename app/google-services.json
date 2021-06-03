@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "121517107982",
+    "project_id": "food-rescue-314315",
+    "storage_bucket": "food-rescue-314315.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:121517107982:android:c71cee53ae184ca313455f",
+        "android_client_info": {
+          "package_name": "com.rodnog.rogermiddenway.foodrescue"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "121517107982-dilvq1bhpk9krs5po01thh844q7ct342.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBoLajgZIMBGqxrPKkUo9g0LHDb2qBB76g"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "121517107982-dilvq1bhpk9krs5po01thh844q7ct342.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

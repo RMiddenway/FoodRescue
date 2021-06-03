@@ -2,6 +2,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/loginLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MainActivity">
@@ -11,9 +12,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="100dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="8dp"
         android:layout_marginEnd="101dp"
-        android:layout_marginBottom="16dp"
+        android:layout_marginBottom="8dp"
         android:ems="10"
         android:hint="Password"
         android:inputType="textPassword"
@@ -27,9 +28,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="101dp"
-        android:layout_marginTop="231dp"
+        android:layout_marginTop="256dp"
         android:layout_marginEnd="100dp"
-        android:layout_marginBottom="16dp"
         android:ems="10"
         android:hint="Your email"
         android:inputType="textPersonName"
@@ -40,12 +40,11 @@
 
     <Button
         android:id="@+id/logInButton"
-        android:layout_width="152dp"
+        android:layout_width="160dp"
         android:layout_height="47dp"
         android:layout_marginStart="129dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="130dp"
-        android:layout_marginBottom="16dp"
         android:text="Log In"
         app:layout_constraintBottom_toTopOf="@+id/signUpButton"
         app:layout_constraintEnd_toEndOf="parent"
@@ -54,12 +53,11 @@
 
     <Button
         android:id="@+id/signUpButton"
-        android:layout_width="148dp"
+        android:layout_width="160dp"
         android:layout_height="47dp"
         android:layout_marginStart="131dp"
-        android:layout_marginTop="16dp"
         android:layout_marginEnd="132dp"
-        android:layout_marginBottom="220dp"
+        android:layout_marginBottom="120dp"
         android:text="Sign Up"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -71,11 +69,42 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="113dp"
+        android:layout_marginTop="16dp"
         android:layout_marginEnd="113dp"
-        android:layout_marginBottom="47dp"
+        android:layout_marginBottom="16dp"
         android:text="Food Rescue"
         android:textSize="32sp"
         app:layout_constraintBottom_toTopOf="@+id/usernameEditText"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/lHelicopterImageView" />
+
+    <ImageView
+        android:id="@+id/lHelicopterImageViewHolder"
+        android:layout_width="144dp"
+        android:layout_height="128dp"
+        android:layout_marginStart="124dp"
+        android:layout_marginTop="120dp"
+        android:layout_marginEnd="125dp"
+        android:layout_marginBottom="16dp"
+        android:scaleType="fitCenter"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toTopOf="@+id/textView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_helicopter"
+        tools:srcCompat="@drawable/ic_helicopter" />
+
+    <ImageView
+        android:id="@+id/lHelicopterImageView"
+        android:layout_width="144dp"
+        android:layout_height="128dp"
+        android:scaleType="fitCenter"
+        android:visibility="visible"
+        app:layout_constraintStart_toEndOf="parent"
+        app:srcCompat="@drawable/ic_helicopter"
+        tools:layout_editor_absoluteY="83dp"
+        tools:srcCompat="@drawable/ic_helicopter" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

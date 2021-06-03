@@ -1,7 +1,12 @@
 package com.rodnog.rogermiddenway.foodrescue.model;
 
+import android.util.Log;
+
+import com.google.android.gms.maps.model.LatLng;
+
 import java.sql.Time;
 import java.util.Date;
+import java.util.List;
 
 public class Food {
     private int food_id;
@@ -9,10 +14,14 @@ public class Food {
     private String image_path;
     private String title;
     private String description;
-    private long date;
-    private long time;
+    private long startTime;
+    private long endTime;
     private int quantity;
-    private String location;
+    private float price;
+    private LatLng location;
+
+
+    private List<String> tags;
 
     public Food() {
 
@@ -50,30 +59,30 @@ public class Food {
         return description;
     }
     public String getShortDescription() {
+        Log.d("LINE", description);
         int maxLength = 40;
         if(description.length() < maxLength) return description;
-        else return description.substring(0, 60) + "...";
+        else return description.replace("\n", " ").replace("\r", " ").substring(0, maxLength) + "...";
     }
 
     public void setDescription(String description) {
         this.description = description;
     }
 
-    public long getDate() {
-        return date;
+    public long getStartTime() {
+        return startTime;
     }
 
-    public void setDate(long date) {
-        this.date = date;
+    public void setStartTime(long time) {
+        this.startTime = time;
     }
 
-    public long getTime() {
-        return time;
+    public long getEndTime() {
+        return endTime;
     }
 
-    public void setTime(Date time) {
-        this.time = time.getTime();
-
+    public void setEndTime(long time) {
+        this.endTime = time;
     }
 
     public int getQuantity() {
@@ -84,12 +93,27 @@ public class Food {
         this.quantity = quantity;
     }
 
-    public String getLocation() {
+    public LatLng getLocation() {
         return location;
     }
 
-    public void setLocation(String location) {
-        this.location = location;
+    public void setLocation(double latitude, double longitude) {
+        this.location = new LatLng(latitude, longitude);
     }
+    public List<String> getTags() {
+        return tags;
+    }
+
+    public void setTags(List<String> tags) {
+        this.tags = tags;
+    }
+    public float getPrice() {
+        return price;
+    }
+
+    public void setPrice(float price) {
+        this.price = price;
+    }
+
 
 }

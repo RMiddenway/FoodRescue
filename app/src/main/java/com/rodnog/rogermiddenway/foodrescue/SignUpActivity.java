@@ -4,6 +4,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -13,8 +15,10 @@ import com.rodnog.rogermiddenway.foodrescue.model.User;
 
 public class SignUpActivity extends AppCompatActivity {
     DatabaseHelper db;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+//        overridePendingTransition(R.anim.enter_right_to_left, R.anim.exit_right_to_left);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
         EditText sNameEditText = findViewById(R.id.sNameEditText);
@@ -43,6 +47,7 @@ public class SignUpActivity extends AppCompatActivity {
                     if(result > 0){
                         Toast.makeText(SignUpActivity.this, "Registered successfully", Toast.LENGTH_SHORT).show();
                         finish();
+                        overridePendingTransition(R.anim.enter_left_to_right, R.anim.exit_left_to_right);
                     }
                     else{
                         Toast.makeText(SignUpActivity.this, "Registration error", Toast.LENGTH_SHORT).show();
@@ -53,5 +58,10 @@ public class SignUpActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        overridePendingTransition(R.anim.enter_left_to_right, R.anim.exit_left_to_right);
     }
 }
