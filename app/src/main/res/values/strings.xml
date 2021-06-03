@@ -132,7 +132,7 @@
         ladys slipper, corn, acorn, hip, buckeye, coral fungus, agaric, gyromitra, stinkhorn,
         earthstar, hen-of-the-woods, bolete, ear, toilet tissue
     </string-array>
-    <string name="API_KEY">AIzaSyBoLajgZIMBGqxrPKkUo9g0LHDb2qBB76g</string>
+    <string name="API_KEY"></string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="googlepay_status_unavailable">Google Pay is unavailable</string>
