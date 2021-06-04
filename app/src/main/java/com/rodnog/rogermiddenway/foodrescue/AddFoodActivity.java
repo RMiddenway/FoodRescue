@@ -58,15 +58,11 @@ public class AddFoodActivity extends AppCompatActivity implements AddFoodBeginFr
 
     Button backButton;
     Button forwardButton;
-
     Fragment currentFragment;
-
-    DatabaseHelper db;
-//    int userId;
     ImageView foodImageView;
     ProgressBar tagProgressBar;
-
     TextView foodTitleTextView;
+
     String foodTitle;
     String foodImagePath;
     String foodDescription;
@@ -88,18 +84,6 @@ public class AddFoodActivity extends AppCompatActivity implements AddFoodBeginFr
         backButton = findViewById(R.id.aBackButton);
         forwardButton = findViewById(R.id.aForwardButton);
         setButtons(0);
-//        backButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                finish();
-//            }
-//        });
-//        forwardButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//
-//            }
-//        });
 
         Fragment fragment = AddFoodBeginFragment.newInstance(); //TODO SEND IT LIST OF KEYWORDS FROM ANNOTATE
         currentFragment = fragment;
@@ -159,70 +143,14 @@ public class AddFoodActivity extends AppCompatActivity implements AddFoodBeginFr
                 e.printStackTrace();
             }
 
-            // Show a Toast with the save location
-//            String savedMessage = "Saved";
-//            Toast.makeText(context, savedMessage, Toast.LENGTH_SHORT).show();
         }
 
         return savedImagePath;
     }
 
-
-//    @Override
-//    public void onBeginAdded(String path, String title) {
-//        //TODO ADD DETAILS TO FIELDS
-//        foodImagePath = path;
-//        foodTitle = title;
-//        Fragment fragment = AddFoodMiddleFragment.newInstance(path, title); //TODO SEND IT LIST OF KEYWORDS FROM ANNOTATE
-//        FragmentManager fragmentManager = getSupportFragmentManager();
-//        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-//        fragmentTransaction.replace(R.id.addFoodFragmentContainer, fragment)
-//                .addToBackStack("0")
-//                .commit();
-//    }
-
-//    @Override
-//    public void onCancel() {
-//        finish();
-//    }
-
-//    @Override
-//    public void onMiddleAdded(String description, List<String> tags, int quantity) {
-//        foodDescription = description;
-//        foodTags = tags;
-//        foodQuantity = quantity;
-//        Fragment fragment = AddFoodEndFragment.newInstance(foodImagePath, foodTitle);
-//        FragmentManager fragmentManager = getSupportFragmentManager();
-//        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-//        fragmentTransaction.replace(R.id.addFoodFragmentContainer, fragment)
-//                .addToBackStack("0")
-//                .commit();
-//    }
-
     @Override
     public void onCloseC(LatLng location, long startTime, long endTime) {
-        //TODO WRITE IT ALL TO THE DB AND TOAST IF IT WORKED
-//        foodLocation = location;
-//        foodStartTime = startTime;
-//        foodEndTime = endTime;
-//
-//        Food newFoodItem = new Food();
-//        newFoodItem.setTitle(foodTitle);
-//        newFoodItem.setImage_path(foodImagePath);
-//        newFoodItem.setDescription(foodDescription);
-//        newFoodItem.setQuantity(foodQuantity);
-//        newFoodItem.setLocation(foodLocation.latitude, foodLocation.longitude);
-//        newFoodItem.setStartTime(foodStartTime);
-//        newFoodItem.setEndTime(foodEndTime);
-//        newFoodItem.setPrice(10); //TODO integrate price entry into UI
-//        DatabaseHelper db = new DatabaseHelper(this);
-//        long result = db.insertFood(newFoodItem);
-//        if(result > 0){
-//            Log.d("ADDFOOD", "Food Item Added");
-//            Toast.makeText(this, "Food Item Added!", Toast.LENGTH_SHORT).show();
-//        }
-//        setResult(RESULT_OK, null);
-//        finish();
+
     }
 
     @Override
@@ -251,8 +179,7 @@ public class AddFoodActivity extends AppCompatActivity implements AddFoodBeginFr
     }
 
     @Override
-    public void onCloseA(String title) { // ONE FOR EACH FRAGMENT?
-//        foodTitle = title;
+    public void onCloseA(String title) {
         foodTitleTextView.setText(title);
 
     }
@@ -267,6 +194,7 @@ public class AddFoodActivity extends AppCompatActivity implements AddFoodBeginFr
 
     @Override
     public void onTitleChanged(String title) {
+
         foodTitle = title;
     }
 
@@ -279,6 +207,7 @@ public class AddFoodActivity extends AppCompatActivity implements AddFoodBeginFr
 
     @Override
     public void onDescriptionChanged(String description) {
+
         foodDescription = description;
     }
 
@@ -355,18 +284,10 @@ public class AddFoodActivity extends AppCompatActivity implements AddFoodBeginFr
                     //TODO back doesn't work
                 }
             });
+            forwardButton.setText("FINISH");
             forwardButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-//                    Fragment fragment = AddFoodEndFragment.newInstance(); //TODO SEND IT LIST OF KEYWORDS FROM ANNOTATE
-//                    FragmentManager fragmentManager = getSupportFragmentManager();
-//                    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-//                    fragmentTransaction.setCustomAnimations(R.anim.enter_right_to_left, R.anim.exit_right_to_left,
-//                            R.anim.enter_left_to_right, R.anim.exit_left_to_right)
-//                            .replace(R.id.addFoodFragmentContainer, fragment)
-//                            .addToBackStack("2")
-//                            .commit();
-//                    getFragmentManager().popBackStackImmediate();
                     if(foodLocation != null && foodStartTime != 0 && foodEndTime != 0) {
                         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(AddFoodActivity.this);
                         SharedPreferences.Editor editor = prefs.edit();
@@ -392,8 +313,6 @@ public class AddFoodActivity extends AppCompatActivity implements AddFoodBeginFr
 //                            Toast.makeText(AddFoodActivity.this, "Food Item Added!", Toast.LENGTH_SHORT).show();
                         }
                         setResult(RESULT_OK, null);
-//                    Intent returnIntent = new Intent();
-//                    setResult(RESULT_OK, returnIntent);
                         Fragment fragment = AddFoodSuccessFragment.newInstance(); //TODO SEND IT LIST OF KEYWORDS FROM ANNOTATE
                         currentFragment = fragment;
                         FragmentManager fragmentManager = getSupportFragmentManager();
@@ -403,16 +322,12 @@ public class AddFoodActivity extends AppCompatActivity implements AddFoodBeginFr
                                 .replace(R.id.addFoodFragmentContainer, fragment)
                                 .addToBackStack("0")
                                 .commit();
-//                        finish();
                     }
                     else{
                         Toast.makeText(AddFoodActivity.this, "Enter location and times", Toast.LENGTH_SHORT).show();
                     }
                 }
             });
-
         }
     }
-
-
 }

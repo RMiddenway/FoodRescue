@@ -61,11 +61,9 @@ public class LoginActivity extends AppCompatActivity {
                     SharedPreferences.Editor editor = sharedPref.edit();
                     editor.putInt("CURRENT_USER", user_id);
                     editor.apply();
-                    int yep = sharedPref.getInt("CURRENT_USER", -1);
-                    Log.d("LOGIN", "User id: " + yep + " " + user_id);
-//                    Toast.makeText(LoginActivity.this, "User id:" + String.valueOf(user_id) + " yes " + String.valueOf(yep), Toast.LENGTH_SHORT).show();
                     startActivity(mainIntent);
                     finish();
+                    overridePendingTransition(R.anim.enter_up, R.anim.exit_up);
 
                 }
                 else{

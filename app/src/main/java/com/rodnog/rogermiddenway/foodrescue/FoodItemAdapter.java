@@ -7,6 +7,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -24,7 +26,7 @@ public class FoodItemAdapter extends RecyclerView.Adapter<FoodItemAdapter.FoodIt
     private List<Food> foodList;
     private Context context;
     private OnRowClickListener listener;
-//    private ImageView foodItemImageViewForTrans;
+    private int lastPosition = -1;
 
     public FoodItemAdapter(List<Food> foodList, Context context, OnRowClickListener listener) {
         this.foodList = foodList;
@@ -56,7 +58,17 @@ public class FoodItemAdapter extends RecyclerView.Adapter<FoodItemAdapter.FoodIt
         }
         holder.foodTitleTextView.setText(foodList.get(position).getTitle());
         holder.foodDescriptionTextView.setText(foodList.get(position).getShortDescription());
-
+        setAnimation(holder.itemView, position);
+    }
+    private void setAnimation(View viewToAnimate, int position)
+    {
+        // If the bound view wasn't previously displayed on screen, it's animated
+        if (position > lastPosition)
+        {
+            Animation animation = AnimationUtils.loadAnimation(context, android.R.anim.slide_in_left);
+            viewToAnimate.startAnimation(animation);
+            lastPosition = position;
+        }
     }
 
     @Override
@@ -78,12 +90,12 @@ public class FoodItemAdapter extends RecyclerView.Adapter<FoodItemAdapter.FoodIt
             foodTitleTextView = itemView.findViewById(R.id.pFoodTitleTextView);
             foodDescriptionTextView = itemView.findViewById(R.id.pFoodDescriptionTextView);
             shareImageButton = itemView.findViewById(R.id.shareImageButton);
-//            foodItemImageViewForTrans = itemView.findViewById(R.id.pFoodImageView);
 
             itemView.setOnClickListener(v -> onRowClickListener.onItemClick(this.getAdapterPosition(), (View)foodItemImageView,
                     (View)foodTitleTextView));
             shareImageButton.setOnClickListener(v -> onRowClickListener.onShareButtonClick(this.getAdapterPosition()));
         }
+
     }
 
     public interface OnRowClickListener {

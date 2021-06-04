@@ -19,12 +19,9 @@ public class Food {
     private int quantity;
     private float price;
     private LatLng location;
-
-
     private List<String> tags;
 
     public Food() {
-
     }
 
     public int getFood_id() {
@@ -58,6 +55,7 @@ public class Food {
     public String getDescription() {
         return description;
     }
+
     public String getShortDescription() {
         Log.d("LINE", description);
         int maxLength = 40;
@@ -107,6 +105,7 @@ public class Food {
     public void setTags(List<String> tags) {
         this.tags = tags;
     }
+
     public float getPrice() {
         return price;
     }

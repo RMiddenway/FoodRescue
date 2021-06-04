@@ -41,12 +41,6 @@ public class CartItemAdapter extends RecyclerView.Adapter<CartItemAdapter.CartIt
         holder.foodItemTitle.setText(food.getTitle());
         holder.foodItemQuantity.setText("Quantity: " + String.valueOf(food.getQuantity()));
         holder.foodItemTotalPrice.setText("$" + formatDecimal(food.getQuantity() * food.getPrice()));
-//        holder.removeItem.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//
-//            }
-//        });
 
     }
 

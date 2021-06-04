@@ -44,21 +44,11 @@ public class AddFoodEndFragment extends Fragment {
     OnAddEndListener mCallback;
 
     TextView cStartDateTextView;
-    TextView cStartTimeTextView;
     TextView cEndDateTextView;
-    TextView cEndTimeTextView;
-
-    String cFoodImagePath;
-    String cFoodTitle;
 
     LatLng cFoodLocation;
     long cFoodStartTime;
     long cFoodEndTime;
-
-    //TODO ADD START AND END TIME PICKERS
-
-    Button cPostButton;
-    Button cBackButton;
 
     Calendar date;
 
@@ -66,17 +56,7 @@ public class AddFoodEndFragment extends Fragment {
         // Required empty public constructor
     }
 
-    /*
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment AddFoodEndFragment.
-     */
-    // TODO: Rename and change types and number of parameters
     public interface OnAddEndListener {
-//        public void onCloseC(LatLng location, long start, long end)
         public void onCloseC(LatLng location, long startTime, long endTime);
         public void onLocationSelected(LatLng location);
         public void onStartTimeSelected(long startTime);
@@ -94,10 +74,6 @@ public class AddFoodEndFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mCallback = (AddFoodEndFragment.OnAddEndListener) getActivity();
-//        if (getArguments() != null) {
-//            cFoodImagePath = getArguments().getString("PATH");
-//            cFoodTitle = getArguments().getString("TITLE");
-//        }
     }
 
     @Override
@@ -140,14 +116,9 @@ public class AddFoodEndFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-//
-//        ImageView cFoodImageView = getActivity().findViewById(R.id.aFoodImageView);
-//        TextView cFoodTitleTextView = getActivity().findViewById(R.id.cFoodTitleTextView);
 
         cStartDateTextView = getActivity().findViewById(R.id.cDateStartTextView);
-//        cStartTimeTextView = getActivity().findViewById(R.id.cTimeEndTextView);
         cEndDateTextView = getActivity().findViewById(R.id.cDateEndTextView);
-//        cEndTimeTextView = getActivity().findViewById(R.id.cTimeEndTextView);
 
         cStartDateTextView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -162,42 +133,12 @@ public class AddFoodEndFragment extends Fragment {
             }
         });
 
-//        File foodImage = new File(cFoodImagePath);
-//        Bitmap foodBitmap = BitmapFactory.decodeFile(foodImage.getAbsolutePath());
-//        cFoodImageView.setImageBitmap(foodBitmap);
-//
-//        cFoodTitleTextView.setText(cFoodTitle);
-
-//        cBackButton = getActivity().findViewById(R.id.cBackButton);
-//        cPostButton = getActivity().findViewById(R.id.cPostButton);
-//
-//        cBackButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                getFragmentManager().popBackStackImmediate();
-//            }
-//        });
-//
-//        cPostButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                if(cFoodLocation != null && cFoodStartTime >0 && cFoodEndTime > 0) {
-//                    onCloseC(cFoodLocation, cFoodStartTime, cFoodEndTime);
-//                }
-//                else {
-//                    Toast.makeText(getActivity(), "Select pickup location and times", Toast.LENGTH_SHORT).show();
-//                }
-//            }
-//        });
-
 
         Places.initialize(getActivity(), getString(R.string.API_KEY));
 
         // Create a new PlacesClient instance
         PlacesClient placesClient = Places.createClient(getActivity());
         // Initialize the AutocompleteSupportFragment.
-//        AutocompleteSupportFragment autocompleteFragment = (AutocompleteSupportFragment)
-//                getActivity().getSupportFragmentManager().findFragmentById(R.id.autocomplete_fragment);
         AutocompleteSupportFragment autocompleteFragment = (AutocompleteSupportFragment)
                 getChildFragmentManager()
                         .findFragmentById(R.id.autocomplete_fragment);

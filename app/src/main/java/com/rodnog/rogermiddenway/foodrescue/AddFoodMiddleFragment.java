@@ -37,45 +37,28 @@ public class AddFoodMiddleFragment extends Fragment {
 
     OnAddMiddleListener mCallback;
 
-    String bFoodImagePath;
-    String bFoodTitle;
 
     EditText bFoodDescriptionEditText;
     EditText bQuantityEditText;
     ChipGroup bTagsChipGroup;
     List<String> bTags;
-    Button bNextButton;
-    Button bBackButton;
 
     public AddFoodMiddleFragment() {
         // Required empty public constructor
     }
 
     public interface OnAddMiddleListener {
-//        public void onMiddleAdded(String description, List<String> tags, int quantity);
         public void onCloseB(String Description, List<String> tags, int quantity);
         public void onDescriptionChanged(String description);
         public void onQuantityChanged(int quantity);
 
     }
-    /*
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment AddFoodMiddleFragment.
-     */
     // TODO: Rename and change types and number of parameters
     public static AddFoodMiddleFragment newInstance(List<String> tags) {// TODO PASS IMAGE PATH AND TITLE, THEN SET
         AddFoodMiddleFragment fragment = new AddFoodMiddleFragment();
 //        Log.d("ADDFOOD", path);
         Bundle args = new Bundle();
-//        String[] tagArr = new String[tags.size()];
-//        tagArr = tags.toArray(tagArr);
         args.putStringArrayList("TAGS", new ArrayList<>(tags));
-//        args.putString("PATH", path);
-//        args.putString("TITLE", title);
         fragment.setArguments(args);
         return fragment;
     }
@@ -86,7 +69,6 @@ public class AddFoodMiddleFragment extends Fragment {
         mCallback = (OnAddMiddleListener) getActivity();
 
         if (getArguments() != null) {
-//            Log.d("ADDFOOD", getArguments().getString("PATH"));
             bTags = getArguments().getStringArrayList("TAGS");
         }
 
@@ -103,17 +85,6 @@ public class AddFoodMiddleFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-//
-//        ImageView bFoodImageView = getActivity().findViewById(R.id.bFoodImageView);
-//        TextView bFoodTitleTextView = getActivity().findViewById(R.id.bFoodTitleTextView);
-//        bTags = new ArrayList<>();
-
-
-//        File foodImage = new File(bFoodImagePath);
-//        Bitmap foodBitmap = BitmapFactory.decodeFile(foodImage.getAbsolutePath());
-//        bFoodImageView.setImageBitmap(foodBitmap);
-//
-//        bFoodTitleTextView.setText(bFoodTitle);
 
         bFoodDescriptionEditText = getActivity().findViewById(R.id.bDescriptionEditText);
         bQuantityEditText = getActivity().findViewById(R.id.bQuantityEditText);
@@ -160,27 +131,6 @@ public class AddFoodMiddleFragment extends Fragment {
             chip.setText(s);
             bTagsChipGroup.addView(chip);
         }
-//        bNextButton = getActivity().findViewById(R.id.bNextButton);
-//        bBackButton = getActivity().findViewById(R.id.bBackButton);
-
-//        bBackButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                getFragmentManager().popBackStackImmediate();
-//            }
-//        });
-//
-//        bNextButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                if(bFoodDescriptionEditText.getText().toString() != "" && bQuantityEditText.getText().toString() != "") {
-//                    onMiddleAdded(bFoodDescriptionEditText.getText().toString(), Arrays.asList("TEST"), Integer.parseInt(bQuantityEditText.getText().toString()));
-//                }
-//                else{
-//                    Toast.makeText(getActivity(), "Enter a description and quantity", Toast.LENGTH_SHORT).show();
-//                }
-//            }
-//        });
 
     }
 
@@ -200,12 +150,6 @@ public class AddFoodMiddleFragment extends Fragment {
             e.printStackTrace();
         }
     }
-//    public void onMiddleAdded(String description, List<String> tags, int quantity) {
-//        if(mCallback != null)
-//        {
-//            mCallback.onMiddleAdded(description, tags, quantity);
-//        }
-//    }
     public void onCloseB(String description, List<String> tags, int quantity){
         if(mCallback != null)
         {

@@ -74,8 +74,6 @@ public class AddFoodSuccessFragment extends Fragment {
                 }
             });
             anim1.start();
-        } else {
-            // Create animator without using curved path
         }
 
     }

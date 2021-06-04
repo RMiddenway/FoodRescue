@@ -15,7 +15,7 @@ public class Util {
     public static final String PASSWORD = "password";
 
     public static final String FOOD_ID = "food_id";
-    public static final String POSTER_ID = "user_id";
+//    public static final String POSTER_ID = "user_id";
     public static final String IMAGE_PATH = "image_path";
     public static final String FOOD_TITLE = "title";
     public static final String FOOD_DESCRIPTION = "description";
@@ -26,6 +26,5 @@ public class Util {
     public static final String LONGITUDE = "longitude";
     public static final String PRICE = "price";
     public static final String TAGS = "tags";
-//    public static final String LOCATION = "location";
 
 }

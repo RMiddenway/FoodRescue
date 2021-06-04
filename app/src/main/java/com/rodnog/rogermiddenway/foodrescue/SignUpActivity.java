@@ -18,7 +18,6 @@ public class SignUpActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-//        overridePendingTransition(R.anim.enter_right_to_left, R.anim.exit_right_to_left);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
         EditText sNameEditText = findViewById(R.id.sNameEditText);

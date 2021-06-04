@@ -1,16 +1,9 @@
 package com.rodnog.rogermiddenway.foodrescue;
 
-import android.app.ActivityOptions;
-import android.content.ContentResolver;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Bitmap;
-import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.provider.MediaStore;
-import android.transition.Explode;
-import android.util.Base64;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -27,35 +20,15 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.functions.FirebaseFunctions;
-import com.google.firebase.functions.HttpsCallableResult;
-import com.google.gson.Gson;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
-import com.google.gson.JsonPrimitive;
-import com.google.mlkit.common.model.LocalModel;
-import com.google.mlkit.vision.common.InputImage;
-import com.google.mlkit.vision.label.ImageLabel;
-import com.google.mlkit.vision.label.ImageLabeler;
-import com.google.mlkit.vision.label.ImageLabeling;
-import com.google.mlkit.vision.label.custom.CustomImageLabelerOptions;
 import com.rodnog.rogermiddenway.foodrescue.data.DatabaseHelper;
 import com.rodnog.rogermiddenway.foodrescue.model.Food;
-import com.rodnog.rogermiddenway.foodrescue.util.LabelerHelper;
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -71,8 +44,6 @@ public class MainActivity extends AppCompatActivity implements FoodItemAdapter.O
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-//        getWindow().setExitTransition(new Explode());
-
         mAuth = FirebaseAuth.getInstance();
 
         db = new DatabaseHelper(this);
@@ -83,6 +54,8 @@ public class MainActivity extends AppCompatActivity implements FoodItemAdapter.O
         foodItemRecyclerView.setAdapter(foodItemAdapter);
         RecyclerView.LayoutManager foodLayoutManager = new LinearLayoutManager(this,
                 LinearLayoutManager.VERTICAL, false);
+
+        foodItemRecyclerView.scheduleLayoutAnimation();
 
         DividerItemDecoration itemDecorator = new DividerItemDecoration(this, DividerItemDecoration.VERTICAL);
         itemDecorator.setDrawable(getDrawable(R.drawable.recyclerview_divider));
@@ -144,9 +117,7 @@ public class MainActivity extends AppCompatActivity implements FoodItemAdapter.O
                         return true;
                     }
                 });
-
                 popup.show();
-
             }
         });
 
@@ -154,16 +125,12 @@ public class MainActivity extends AppCompatActivity implements FoodItemAdapter.O
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                ActivityOptions options = ActivityOptions.makeCustomAnimation(MainActivity.this, R.anim.enter_left_to_right, R.anim.exit_left_to_right);
                 Intent addIntent = new Intent(MainActivity.this, AddFoodActivity.class);
                 startActivityForResult(addIntent, 1);
                 overridePendingTransition(R.anim.pop_from_add_in, R.anim.hold);
-//                finish();
-//                overridePendingTransition(R.anim.enter_left_to_right, R.anim.exit_left_to_right);
 
             }
         });
-
     }
 
     @Override
@@ -171,7 +138,6 @@ public class MainActivity extends AppCompatActivity implements FoodItemAdapter.O
         super.onStart();
         // Check if user is signed in (non-null) and update UI accordingly.
         FirebaseUser currentUser = mAuth.getCurrentUser();
-//        updateUI(currentUser);
         mAuth.signInAnonymously()
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
@@ -180,22 +146,15 @@ public class MainActivity extends AppCompatActivity implements FoodItemAdapter.O
                             // Sign in success, update UI with the signed-in user's information
                             Log.d(TAG, "signInAnonymously:success");
                             FirebaseUser user = mAuth.getCurrentUser();
-//                            updateUI(user);
                         } else {
                             // If sign in fails, display a message to the user.
                             Log.w(TAG, "signInAnonymously:failure", task.getException());
                             Toast.makeText(MainActivity.this, "Authentication failed.",
                                     Toast.LENGTH_SHORT).show();
-//                            updateUI(null);
                         }
                     }
                 });
     }
-//    @Override public void finish()
-//    {
-//        super.finish();
-//        overridePendingTransition(R.anim.enter_left_to_right, R.anim.exit_left_to_right);
-//    }
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -204,8 +163,6 @@ public class MainActivity extends AppCompatActivity implements FoodItemAdapter.O
             Intent refresh = new Intent(this, MainActivity.class);
             startActivity(refresh);
             this.finish();
-//            Bundle tempBundle = new Bundle();
-//            onCreate(tempBundle);
         }
     }
 
@@ -217,18 +174,12 @@ public class MainActivity extends AppCompatActivity implements FoodItemAdapter.O
         Log.d("MAIN", "Food ID requested: " + foodList.get(position).getFood_id());
         Pair p1 = Pair.create(sharedImageView, "foodItemImage");
         Pair p2 = Pair.create(sharedTextView, "foodItemTitle");
-//        ActivityOptionsCompat options = ActivityOptionsCompat.
-//                makeSceneTransitionAnimation(MainActivity.this, shared, "foodItemImage");
         ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(MainActivity.this, p1, p2);
         startActivity(viewIntent, options.toBundle());
-//        startActivity(viewIntent);
-//
-//        overridePendingTransition(R.anim.enter_left_to_right, R.anim.exit_left_to_right);
     }
     @Override
     public void onShareButtonClick(int position) {
         Food selectedFood = foodList.get(position);
-//        Toast.makeText(MainActivity.this, "Clicked " + selectedFood.getTitle(), Toast.LENGTH_SHORT).show();
         Intent sendIntent = new Intent();
         sendIntent.setAction(Intent.ACTION_SEND);
         sendIntent.putExtra(Intent.EXTRA_SUBJECT, "Come and get it! - " + selectedFood.getTitle());

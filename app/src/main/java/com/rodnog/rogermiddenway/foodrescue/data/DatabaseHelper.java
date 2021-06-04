@@ -34,7 +34,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         String CREATE_USER_TABLE = "CREATE TABLE " + Util.TABLE_NAME_USERS + "(" + Util.USER_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
                 + Util.NAME + " TEXT," + Util.EMAIL + " TEXT," + Util.PHONE + " TEXT, " + Util.ADDRESS + " TEXT, " + Util.PASSWORD + " TEXT)";
         db.execSQL(CREATE_USER_TABLE);
-//TODO CHANGE DB DATE AND PICKUP TIMES TO START TIME END TIME
         String CREATE_FOOD_TABLE = "CREATE TABLE " + Util.TABLE_NAME_FOOD + "(" + Util.FOOD_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
                 + Util.USER_ID + " INTEGER," + Util.IMAGE_PATH + " TEXT, " + Util.FOOD_TITLE + " TEXT, " + Util.FOOD_DESCRIPTION
                 + " TEXT, " + Util.START_TIME +  " INTEGER, " + Util.END_TIME + " INTEGER, " + Util.QUANTITY + " INTEGER, " + Util.LATITUDE
@@ -131,7 +130,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
         contentValues.put(Util.TAGS, sb.toString());
 
-
         long newRowId = db.replace(Util.TABLE_NAME_FOOD, null, contentValues);
         db.close();
         return newRowId;
@@ -141,8 +139,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getReadableDatabase();
         String select = "SELECT * FROM " + Util.TABLE_NAME_FOOD + " WHERE " + Util.FOOD_ID + "= ?";
         Cursor cursor = db.rawQuery(select, new String[]{String.valueOf(foodId)});
-//        Cursor cursor = db.query(Util.TABLE_NAME_FOOD, new String[]{Util.FOOD_ID}, Util.FOOD_ID + "=? ",
-//                new String[]{String.valueOf(foodId)}, null, null, null);
+
         if(cursor.moveToFirst()){
             db.close();
             Food food = new Food();
@@ -162,7 +159,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             return food;
         }
         else{
-//            Toast.makeText(mContext, "FOOD NOT FOUND", Toast.LENGTH_SHORT).show();
             Log.d("DATABASE", "FOOD NOT FOUUND");
             db.close();
             return null;
@@ -198,18 +194,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
         return foodList;
     }
-//    private Food getFood(Cursor cursor){
-//        Food food = new Food();
-//        food.setFood_id((cursor.getInt(cursor.getColumnIndex(Util.FOOD_ID))));
-//        food.setUser_id((cursor.getInt(cursor.getColumnIndex(Util.USER_ID))));
-//        food.setImage_path(cursor.getString(cursor.getColumnIndex(Util.IMAGE_PATH)));
-//        food.setTitle(cursor.getString(cursor.getColumnIndex(Util.FOOD_TITLE)));
-//        food.setDescription(cursor.getString(cursor.getColumnIndex(Util.FOOD_DESCRIPTION)));
-//        food.setDate(cursor.getInt(cursor.getColumnIndex(Util.DATE)));
-//        food.setTime(cursor.getInt(cursor.getColumnIndex(Util.PICKUP_TIMES)));
-//        food.setLocation(cursor.getInt(cursor.getColumnIndex(Util.LATITUDE)), cursor.getInt(cursor.getColumnIndex(Util.LONGITUDE)));
-//        return food;
-//    }
     public List<Food> fetchAllFoodItems(int userId){
         SQLiteDatabase db = this.getReadableDatabase();
         String selectAll = "SELECT * FROM " + Util.TABLE_NAME_FOOD + " WHERE " + Util.USER_ID + "= ?";

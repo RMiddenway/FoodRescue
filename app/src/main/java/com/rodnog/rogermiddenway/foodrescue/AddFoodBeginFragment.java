@@ -67,11 +67,8 @@ public class AddFoodBeginFragment extends Fragment {
     OnAddBeginListener mCallback;
 
     EditText titleEditText;
-//    ImageView aFoodImageView;
     Button addImageButton;
     String imagePath;
-    Button nextButton;
-    Button cancelButton;
 
     public AddFoodBeginFragment() {
         // Required empty public constructor
@@ -175,17 +172,14 @@ public class AddFoodBeginFragment extends Fragment {
         titleEditText.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
             }
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-
             }
 
             @Override
             public void afterTextChanged(Editable s) {
-//                Log.d("ADDTITLE", s.toString());
                 if(s.toString() != ""){
                     onTitleChanged(s.toString());
 
@@ -198,7 +192,6 @@ public class AddFoodBeginFragment extends Fragment {
     public void onDestroyView() {
         super.onDestroyView();
         onCloseA(titleEditText.getText().toString());
-
     }
 
     public void onPictureAdded(String path) {
@@ -257,12 +250,7 @@ public class AddFoodBeginFragment extends Fragment {
             } catch (Exception e) {
                 e.printStackTrace();
             }
-
-            // Show a Toast with the save location
-//            String savedMessage = "Saved";
-//            Toast.makeText(context, savedMessage, Toast.LENGTH_SHORT).show();
         }
-
         return savedImagePath;
     }
 
@@ -314,14 +302,6 @@ public class AddFoodBeginFragment extends Fragment {
 
                             }
                             onTagsReceived(result);
-//                            JsonObject obj = null;
-//                            obj = task.getResult().getAsJsonObject();
-//                            JsonObject annotation = task.getResult().getAsJsonObject().get("labelAnnotations").getAsJsonObject();
-//                            JsonArray arr = obj.getAsJsonArray("labelAnnotations");
-//                            Log.d("ADDFOOD", annotation.toString());
-
-                            // Task completed successfully
-                            // ...
                         }
                     }
                 });

@@ -211,11 +211,7 @@ public class CartActivity extends AppCompatActivity implements CartItemAdapter.O
 
         // The price provided to the API should include taxes and shipping.
         // This price is not displayed to the user.
-//        try {
-//        double foodItemPrice = foodItem.getPrice();
-//        int quantity = Integer.parseInt(foodQuantityEditText.getText().toString());
         long foodItemPriceCents = Math.round(total);
-//            long priceCents = foodItemPriceCents + SHIPPING_COST_CENTS;
 
         Optional<JSONObject> paymentDataRequestJson = PaymentsUtil.getPaymentDataRequest(foodItemPriceCents);
         if (!paymentDataRequestJson.isPresent()) {
@@ -277,6 +273,7 @@ public class CartActivity extends AppCompatActivity implements CartItemAdapter.O
         editor.apply();
 
         finish();
+        overridePendingTransition(R.anim.enter_up, R.anim.exit_up);
         startActivity(getIntent());
     }
 }
