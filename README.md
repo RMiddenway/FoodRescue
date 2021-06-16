@@ -4,4 +4,4 @@ This app was developed for SIT305, Mobile App Development during my third year a
 The brief was to create an app which would allow users to post food items for collection, ideally to prevent food waste. 
 Certain requirements were given in the brief, such as posting Places locations, and integrating a payment system.
 
-![Alt text](gifs/FRLogin.gif) And some more text
+![Alt text](gifs/FRLogin.gif) And some more text \n with line breaks \nand more linebreaks
