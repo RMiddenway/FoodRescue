@@ -9,7 +9,7 @@ Certain requirements were given in the brief, such as posting Places locations, 
 <img align="left" src="gifs/FRLogin.gif"><img align="right" src="gifs/FRItemView.gif">
 
 One of my main goals for this project was to create a visually interesting UI that reinforced the user's mental map of the app. To achieve this, I used Android's
-transition animations to create transitions which made spatial sense. For example, the transition on the right users a common element as an anchor. 
+transition animations to create transitions which made spatial sense. For example, the transition on the right uses a common element as an anchor. 
 \
 \
 I also created some custom animations which are triggered by various actions. On the left, the two helicopter movements are triggered by the user's input in the username and password fields. They were designed to trigger in this way to give them a more organic timing. Triggering them based on hard coded delays would have given a more mechanical effect.
